@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Only For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box;}
+body{
+  margin:0;
+    font-family:'Segoe UI',sans-serif;
+      background:linear-gradient(135deg,#ff2f6d,#ff9aa2);
+        color:white;
+          overflow:hidden;
+          }
+
+          section{
+            min-height:100vh;
+              display:none;
+                justify-content:center;
+                  align-items:center;
+                    flex-direction:column;
+                      text-align:center;
+                        padding:20px;
+                        }
+
+                        .active{display:flex;}
+
+                        input,button{
+                          border:none;
+                            border-radius:30px;
+                              padding:15px 30px;
+                                font-size:18px;
+                                  margin-top:15px;
+                                  }
+
+                                  button{
+                                    background:white;
+                                      color:#ff2f6d;
+                                        cursor:pointer;
+                                          box-shadow:0 8px 18px rgba(0,0,0,.25);
+                                          }
+                                          button:hover{transform:scale(1.07);}
+
+                                          .hearts span{
+                                            position:fixed;
+                                              bottom:-30px;
+                                                animation:float 8s linear infinite;
+                                                  opacity:.9;
+                                                  }
+
+                                                  @keyframes float{
+                                                    from{transform:translateY(0);}
+                                                      to{transform:translateY(-120vh);}
+                                                      }
+
+                                                      .countdown{
+                                                        font-size:20px;
+                                                          margin-top:10px;
+                                                          }
+
+                                                          canvas{
+                                                            position:fixed;
+                                                              inset:0;
+                                                                pointer-events:none;
+                                                                }
+                                                                </style>
+                                                                </head>
+
+                                                                <body>
+
+                                                                <!-- MUSIC -->
+                                                                <audio id="music" loop>
+                                                                <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4a42c1d7e3.mp3">
+                                                                </audio>
+
+                                                                <!-- FLOATING HEARTS -->
+                                                                <div class="hearts"></div>
+
+                                                                <!-- CONFETTI -->
+                                                                <canvas id="confetti"></canvas>
+
+                                                                <!-- PASSWORD SCREEN -->
+                                                                <section id="screen0" class="active">
+                                                                <h1>🔐 Secret Valentine Page</h1>
+                                                                <p>Enter the magic word:</p>
+                                                                <input id="pass" placeholder="Hint: LOVE">
+                                                                <button onclick="unlock()">Open ❤️</button>
+                                                                </section>
+
+                                                                <!-- INTRO -->
+                                                                <section id="screen1">
+                                                                <h1 id="typed"></h1>
+                                                                <div class="countdown" id="countdown"></div>
+                                                                <button onclick="go(2)">Continue 💌</button>
+                                                                </section>
+
+                                                                <!-- QUESTION -->
+                                                                <section id="screen2">
+                                                                <h1 style="font-size:42px;">Will you be my Valentine? 💖</h1>
+                                                                <button onclick="yes()">YES 😍</button>
+                                                                <button onclick="yes()">OBVIOUSLY 💕</button>
+                                                                </section>
+
+                                                                <!-- FINAL -->
+                                                                <section id="screen3">
+                                                                <h1>IT’S A DATEEEE 🎉❤️</h1>
+                                                                <p>I can’t wait to see you 😉</p>
+                                                                </section>
+
+                                                                <script>
+                                                                /* ---------- MUSIC ---------- */
+                                                                const music=document.getElementById("music");
+
+                                                                /* ---------- SCREEN SWITCH ---------- */
+                                                                function go(n){
+                                                                 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+                                                                  document.getElementById("screen"+n).classList.add("active");
+                                                                   music.play();
+                                                                   }
+
+                                                                   /* ---------- PASSWORD ---------- */
+                                                                   function unlock(){
+                                                                    const p=document.getElementById("pass").value.toLowerCase();
+                                                                     if(p==="love") go(1);
+                                                                      else alert("Wrong 😏 try again!");
+                                                                      }
+
+                                                                      /* ---------- TYPE NAME ---------- */
+                                                                      const text="My Favorite Person ❤️";
+                                                                      let i=0;
+                                                                      function type(){
+                                                                       if(i<text.length){
+                                                                         document.getElementById("typed").innerHTML+=text.charAt(i);
+                                                                           i++;
+                                                                             setTimeout(type,120);
+                                                                              }
+                                                                              }
+                                                                              type();
+
+                                                                              /* ---------- COUNTDOWN ---------- */
+                                                                              const valDay=new Date(new Date().getFullYear(),1,14);
+                                                                              setInterval(()=>{
+                                                                               const diff=valDay-new Date();
+                                                                                const d=Math.max(0,Math.floor(diff/86400000));
+                                                                                 const h=Math.floor(diff/3600000)%24;
+                                                                                  const m=Math.floor(diff/60000)%60;
+                                                                                   document.getElementById("countdown").innerHTML=
+                                                                                     `⏳ ${d} days ${h}h ${m}m until Valentine’s`;
+                                                                                     },1000);
+
+                                                                                     /* ---------- YES CLICK ---------- */
+                                                                                     function yes(){
+                                                                                      go(3);
+                                                                                       confetti();
+                                                                                        setTimeout(()=>{
+                                                                                         window.location.href=
+                                                                                          "https://wa.me/?text=I%20said%20YES%20to%20your%20Valentine%20proposal%20❤️😍";
+                                                                                           },3500);
+                                                                                           }
+
+                                                                                           /* ---------- CONFETTI ---------- */
+                                                                                           function confetti(){
+                                                                                            const c=document.getElementById("confetti");
+                                                                                             const ctx=c.getContext("2d");
+                                                                                              c.width=innerWidth;
+                                                                                               c.height=innerHeight;
+
+                                                                                                let p=[];
+                                                                                                 for(let i=0;i<160;i++)
+                                                                                                   p.push({
+                                                                                                      x:Math.random()*c.width,
+                                                                                                         y:Math.random()*c.height,
+                                                                                                            s:Math.random()*8+3,
+                                                                                                               v:Math.random()*3+2
+                                                                                                                 });
+
+                                                                                                                  function draw(){
+                                                                                                                    ctx.clearRect(0,0,c.width,c.height);
+                                                                                                                      p.forEach(o=>{
+                                                                                                                         ctx.fillStyle="white";
+                                                                                                                            ctx.fillRect(o.x,o.y,o.s,o.s);
+                                                                                                                               o.y+=o.v;
+                                                                                                                                 });
+                                                                                                                                   requestAnimationFrame(draw);
+                                                                                                                                    }
+                                                                                                                                     draw();
+                                                                                                                                     }
+
+                                                                                                                                     /* ---------- HEART RAIN ---------- */
+                                                                                                                                     setInterval(()=>{
+                                                                                                                                      const s=document.createElement("span");
+                                                                                                                                       s.innerHTML="❤️";
+                                                                                                                                        s.style.left=Math.random()*100+"vw";
+                                                                                                                                         s.style.fontSize=Math.random()*30+12+"px";
+                                                                                                                                          document.querySelector(".hearts").appendChild(s);
+                                                                                                                                           setTimeout(()=>s.remove(),8000);
+                                                                                                                                           },500);
+                                                                                                                                           </script>
+
+                                                                                                                                           </body>
+                                                                                                                                           </html>
+                                                                                                                                           
